@@ -140,27 +140,23 @@ const calculateRating = (playerStats) => {
 
 const getDifferentTournaments = async (season_id, tournament_id, isPast) => {
   const tournamentIDs = [];
-  const response = await fetch(
+  const past = await fetch(
     `https://www.sofascore.com/api/v1/unique-tournament/${tournament_id}/season/${season_id}/events/last/0`
   );
-  const data = await response.json();
+  const pastData = await past.json();
   const upcoming = await fetch(
     `https://www.sofascore.com/api/v1/unique-tournament/${tournament_id}/season/${season_id}/events/next/0`
   );
   const upcomingData = await upcoming.json();
-  // data.events = data.events.concat(upcomingData.events);
-  // data.events.forEach((event) => {
-  //   tournamentIDs.push(event.id);
-  // });
 
   if (isPast) {
-    data.events.forEach((event) => {
+    pastData.events.forEach((event) => {
       tournamentIDs.push(event.id);
     });
 
     return {
       tournamentIDs,
-      data,
+      data: pastData,
     };
   } else {
     upcomingData.events.forEach((event) => {
@@ -201,7 +197,6 @@ const getPlayers = async (tID) => {
 };
 
 const handleLoadPlayers = async (tournament, match) => {
-  // remove all previous lineups
   const lineup_match = document.getElementsByClassName("lineup-match")[0];
   if (lineup_match) {
     lineup_match.remove();
@@ -440,42 +435,6 @@ const main = async (euros, past = true) => {
     groupDiv.textContent = group;
     match.appendChild(groupDiv);
   });
-
-  // const { fullPlayer } = await getPlayers();
-  // const allPlayerStats = [];
-
-  // fullPlayer.forEach((player) => {
-  //   if (player.statistics.minutesPlayed == undefined) {
-  //     return;
-  //   }
-
-  //   allPlayerStats.push(player);
-  // });
-
-  // for (const playerStats of allPlayerStats) {
-  //   if (playerStats.player.name === "Cristiano Ronaldo") {
-  //     console.log(playerStats.statistics);
-  //   }
-
-  //   const stats = playerStats.statistics;
-  //   const rating = calculateRating(stats);
-
-  //   ratings.push({
-  //     name: playerStats.player?.name,
-  //     rating,
-  //     substitute: playerStats.substitute,
-  //   });
-  // }
-
-  // ratings.sort((a, b) => b.rating - a.rating);
-  // for (const player of ratings) {
-  //   const index = ratings.indexOf(player) + 1;
-  //   console.log(
-  //     `${index} | ${player.name} ${player.substitute ? "(SUB)" : ""}: ${
-  //       player.rating.toFixed(1)
-  //     } `
-  //   );
-  // }
 };
 
 const toggle = document.getElementById("toggle");
@@ -516,21 +475,11 @@ const handleChange = () => {
   }, 100);
 };
 
-// const revertSelectors = () => {
-//   const options = document.querySelectorAll(".matches-container-option");
-//   options.forEach((option) => {
-//     option.classList.remove("active");
-//   });
-
-//   options[0].classList.add("active");
-// };
-
 updateStyles();
 handleChange();
 toggle.addEventListener("change", () => {
   updateStyles();
   handleChange();
-  // revertSelectors();
 });
 
 const changeMatches = (type) => {
