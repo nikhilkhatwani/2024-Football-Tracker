@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2024 International Competition Ratings</title>
+    <script defer src="./ratings.js"></script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="container-left">
+        <div class="header" id="header">
+          <div class="header-left" id="header-left"></div>
+          <div class="header-right">
+            <!-- toggle -->
+            <div
+              class="toggle"
+              onclick="
+              const toggle = document.getElementById('toggle');
+              toggle.checked = !toggle.checked;
+              toggle.dispatchEvent(new Event('change'));
+            "
+            >
+              <label class="switch">
+                <input type="checkbox" id="toggle" />
+                <span class="slider"></span>
+              </label>
+
+              <p id="switch-p">
+                Euros <span>/</span>
+                <span id="switch-span">Copa América</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div id="matches-container" class="matches-container">
+          <div class="matches-container-selector">
+            <!-- past and upcoming -->
+            <div
+              class="matches-container-option active"
+              onclick="changeMatches('past')"
+            >
+              Past
+            </div>
+            <div
+              class="matches-container-option"
+              onclick="changeMatches('upcoming')"
+            >
+              Upcoming
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-right">
+        <div class="lineups">
+          <div class="lineups-header">
+            Top Rated Players
+            <div class="selected-match">
+              <div class="match"></div>
+            </div>
+          </div>
+
+          <div class="players-container">
+            <div class="none-selected">
+              <p>Select a match to see the top rated players</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
