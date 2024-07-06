@@ -190,14 +190,19 @@ const calculateRating = (playerStats, pos) => {
   return rating;
 };
 
-const getDifferentTournaments = async (season_id, tournament_id, isPast) => {
+const getDifferentTournaments = async (
+  season_id,
+  tournament_id,
+  isPast,
+  page = 0
+) => {
   const tournamentIDs = [];
   const past = await fetch(
-    `https://www.sofascore.com/api/v1/unique-tournament/${tournament_id}/season/${season_id}/events/last/0`
+    `https://www.sofascore.com/api/v1/unique-tournament/${tournament_id}/season/${season_id}/events/last/${page}`
   );
   const pastData = await past.json();
   const upcoming = await fetch(
-    `https://www.sofascore.com/api/v1/unique-tournament/${tournament_id}/season/${season_id}/events/next/0`
+    `https://www.sofascore.com/api/v1/unique-tournament/${tournament_id}/season/${season_id}/events/next/${page}`
   );
   const upcomingData = await upcoming.json();
 
@@ -373,7 +378,7 @@ const handleLoadPlayers = async (tournament, match) => {
   });
 };
 
-const main = async (euros, past = true) => {
+const main = async (euros, past = true, page = 0) => {
   const allMatches = document.querySelectorAll(".match");
   allMatches.forEach((match) => {
     match.remove();
@@ -389,7 +394,8 @@ const main = async (euros, past = true) => {
   let { tournamentIDs, data: tournamentData } = await getDifferentTournaments(
     season_id,
     tournament_id,
-    past
+    past,
+    page
   );
 
   const headerImg = document.createElement("img");
@@ -534,12 +540,12 @@ toggle.addEventListener("change", () => {
   handleChange();
 });
 
-const changeMatches = (type) => {
+const changeMatches = (type, page = 0) => {
   const isPast = type === "past";
   if (isPast) {
-    main(!toggle.checked, true);
+    main(!toggle.checked, true, page);
   } else {
-    main(!toggle.checked, false);
+    main(!toggle.checked, false, page);
   }
 };
 
@@ -551,4 +557,22 @@ options.forEach((option) => {
 
     option.classList.add("active");
   });
+});
+
+const pagesButton = document.getElementsByClassName("pages-button");
+const left = pagesButton[0];
+const right = pagesButton[1];
+
+left.addEventListener("click", () => {
+  const active = document.getElementsByClassName("active")[0];
+  const type = active.textContent.toLowerCase();
+  const typeWithoutSpace = type.replace(/\s/g, "");
+  changeMatches(typeWithoutSpace, 0);
+});
+
+right.addEventListener("click", () => {
+  const active = document.getElementsByClassName("active")[0];
+  const type = active.textContent.toLowerCase();
+  const typeWithoutSpace = type.replace(/\s/g, "");
+  changeMatches(typeWithoutSpace, 1);
 });

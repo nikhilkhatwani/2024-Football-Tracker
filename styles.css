@@ -372,7 +372,40 @@ input:checked + .slider:before {
   margin-bottom: 20px;
   width: 100%;
   padding: 10px;
+  justify-content: space-between;
+}
+
+.selector-wrapper {
+  display: flex;
+  align-items: center;
   gap: 20px;
+}
+
+.pages-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.pages-button {
+  background-color: #8c8a8a;
+  color: white;
+  padding: 3px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+.pages-button.disbaled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.pages-button:hover {
+  background-color: #3e5a2c;
 }
 
 .matches-container-option {
