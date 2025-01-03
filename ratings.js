@@ -389,9 +389,9 @@ const main = async (euros, past = true, page = 0) => {
   }
 
   // let season_id = euros ? 56953 : 57114;
-  let season_id = euros ? 61643 : 57114;
+  let season_id = euros ? 61643 : 63998;
   // let tournament_id = euros ? 1 : 133;
-  let tournament_id = euros ? 8 : 133;
+  let tournament_id = euros ? 8 : 955;
 
   let { tournamentIDs, data: tournamentData } = await getDifferentTournaments(
     season_id,
