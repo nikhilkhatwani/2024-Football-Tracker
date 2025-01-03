@@ -565,16 +565,22 @@ const pagesButton = document.getElementsByClassName("pages-button");
 const left = pagesButton[0];
 const right = pagesButton[1];
 
+let currentPage = 0;
+
 left.addEventListener("click", () => {
   const active = document.getElementsByClassName("active")[0];
   const type = active.textContent.toLowerCase();
   const typeWithoutSpace = type.replace(/\s/g, "");
-  changeMatches(typeWithoutSpace, 0);
+  if (currentPage > 0) { 
+    currentPage -= 1;
+    changeMatches(typeWithoutSpace, currentPage);
+  }
 });
 
 right.addEventListener("click", () => {
   const active = document.getElementsByClassName("active")[0];
   const type = active.textContent.toLowerCase();
   const typeWithoutSpace = type.replace(/\s/g, "");
-  changeMatches(typeWithoutSpace, 1);
+  currentPage += 1;
+  changeMatches(typeWithoutSpace, currentPage);
 });
